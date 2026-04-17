@@ -13,7 +13,6 @@ This repo auto-fetches and summarises AI + R content weekly. The pipeline is pla
 - Reviewing/editing the current week's draft newsletter
 - Checking what's been fetched this week
 - Debugging fetcher failures
-- Handling sources that have no feed (manual notes)
 
 ## Layout (quick reference)
 
@@ -24,12 +23,17 @@ This repo auto-fetches and summarises AI + R content weekly. The pipeline is pla
 - `newsletters/<YYYY-Www>.md` — draft
 - `seen.csv` — dedup
 
+## Source types wired up
+
+- `sources/feeds.csv` — RSS/Atom feeds (Substacks, Quarto blogs, etc.). Fetched by `R/fetch_feeds.R`.
+- `sources/github.csv` — R packages; parsed from each repo's `NEWS.md`. Fetched by `R/fetch_github.R`.
+
 ## Workflows
 
 ### "Add [URL] as a source"
-1. Figure out the source type (Substack, blog with RSS, GitHub releases, docs page, etc.)
-2. Find the feed URL if applicable (Substack = `<domain>/feed`; many blogs = `<url>/feed` or `/index.xml`; GitHub releases = `<repo>/releases.atom`)
-3. Append a row to the matching `sources/*.csv`. If no CSV exists for the type yet, flag that we need a new fetcher.
+1. Figure out the source type. R package? → `sources/github.csv` with `repo` like `tidyverse/ellmer`. Blog/Substack with RSS? → `sources/feeds.csv` with a feed URL.
+2. Find the feed URL if applicable. Common patterns: Substack = `<domain>/feed`; Quarto blogs = `<url>/index.xml`; Hugo = `<url>/index.xml` or `/feed`.
+3. Append a row. If no existing CSV matches the source type, flag that we need a new fetcher.
 
 ### "Show me this week's drafts" / "What was fetched?"
 - Compute the ISO week (`date +%G-W%V`)
@@ -41,7 +45,8 @@ This repo auto-fetches and summarises AI + R content weekly. The pipeline is pla
 - Make requested edits
 
 ### "Run fetch/summarise now"
-- `Rscript R/fetch_substacks.R`
+- `Rscript R/fetch_feeds.R`
+- `Rscript R/fetch_github.R`
 - `Rscript R/summarise.R` (needs `ANTHROPIC_API_KEY`)
 
 ### "A fetcher is broken"
@@ -49,11 +54,9 @@ This repo auto-fetches and summarises AI + R content weekly. The pipeline is pla
 - Check if the feed URL still works (WebFetch)
 - Fix the URL or patch the fetcher's column handling
 
-## Sources without feeds
+## Sources we've explicitly skipped
 
-Many interesting sources (courses, live docs, some GitHub repos) don't have usable feeds. Current convention: don't auto-fetch them. During newsletter review, manually WebFetch anything worth mentioning and paste it into that week's newsletter directly.
-
-When a new source type accumulates more than a couple of entries, it's worth promoting it to its own CSV + fetcher.
+Pages without feeds (courses, docs sites, live reference material) and one-off news articles (Economist, HBR, Guardian) are out of scope for the automated pipeline. If something from those catches your eye, paste it into that week's newsletter manually.
 
 ## Tone
 

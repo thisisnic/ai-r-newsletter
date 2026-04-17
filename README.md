@@ -11,22 +11,24 @@ A GitHub Actions cron job fetches new items from configured sources, then uses C
 - `content/<YYYY-Www>/` — raw fetched items for the week
 - `newsletters/<YYYY-Www>.md` — AI-drafted weekly digest
 - `seen.csv` — dedup state (URLs we've already fetched)
-- `.github/workflows/weekly.yml` — Monday 08:00 UTC cron
+- `.github/workflows/weekly.yml` — Sunday 01:00 UTC cron
+
+## Source types wired up
+
+- **`sources/feeds.csv`** — RSS/Atom feeds (Substacks, Quarto blogs, Hugo sites). Fetched by `R/fetch_feeds.R`.
+- **`sources/github.csv`** — R packages; we parse each repo's `NEWS.md` for new version entries. Fetched by `R/fetch_github.R`.
 
 ## Adding a source
 
-- **Existing type (e.g. Substack)**: append a row to `sources/substacks.csv`.
+- **Existing type**: append a row to the relevant `sources/*.csv`.
 - **New type**: create a new CSV in `sources/` and a matching `R/fetch_<type>.R` that writes markdown files into `content/<week>/` and calls `mark_seen()`. Wire it into the workflow.
 
 ## Running locally
 
 ```r
-Rscript R/fetch_substacks.R
+Rscript R/fetch_feeds.R
+Rscript R/fetch_github.R
 Rscript R/summarise.R
 ```
 
 `summarise.R` needs `ANTHROPIC_API_KEY` in the environment.
-
-## Status
-
-Prototype. Only Substacks/RSS feeds are wired up so far. GitHub releases and docs-page scraping are next.

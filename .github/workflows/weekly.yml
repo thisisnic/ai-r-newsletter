@@ -27,8 +27,8 @@ jobs:
             any::httr2
             any::ellmer
 
-      - name: Fetch Substacks
-        run: Rscript R/fetch_substacks.R
+      - name: Fetch feeds
+        run: Rscript R/fetch_feeds.R
 
       - name: Fetch R package NEWS
         env:
