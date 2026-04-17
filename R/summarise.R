@@ -36,7 +36,7 @@ system_prompt <- paste(
   "produce a markdown newsletter with:",
   "- a one-line intro framing the week",
   "- grouped sections (e.g. LLM tooling, R packages, commentary, security) with short H2 headers",
-  "- for each item, 2-4 sentence summary, link the title to its url",
+  "- for each item: show the linked title, the published date from the frontmatter (format as 'YYYY-MM-DD'), and a 2-4 sentence summary",
   "- skip items that aren't genuinely interesting or are off-topic",
   "Keep the voice practical, readable, a little dry. No emojis.",
   sep = "\n"

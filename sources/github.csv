@@ -1,0 +1,10 @@
+name,feed_url,topics,notes
+ellmer,https://github.com/tidyverse/ellmer/releases.atom,R LLM packages,
+chattr,https://github.com/mlverse/chattr/releases.atom,R LLM packages,
+mall,https://github.com/mlverse/mall/releases.atom,R LLM packages,
+tidyllm,https://github.com/edubruell/tidyllm/releases.atom,R LLM packages,
+rollama,https://github.com/JBGruber/rollama/releases.atom,R LLM packages,
+ollamar,https://github.com/hauselin/ollama-r/releases.atom,R LLM packages,
+gptstudio,https://github.com/MichelNivard/gptstudio/releases.atom,R LLM packages,
+shinychat,https://github.com/posit-dev/shinychat/releases.atom,R LLM packages,
+querychat,https://github.com/posit-dev/querychat/releases.atom,R LLM packages,

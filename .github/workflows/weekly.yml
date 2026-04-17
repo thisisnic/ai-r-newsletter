@@ -29,6 +29,9 @@ jobs:
       - name: Fetch Substacks
         run: Rscript R/fetch_substacks.R
 
+      - name: Fetch GitHub releases
+        run: Rscript R/fetch_github.R
+
       - name: Summarise
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
