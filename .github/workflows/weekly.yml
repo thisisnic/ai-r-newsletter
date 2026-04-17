@@ -24,12 +24,15 @@ jobs:
             any::readr
             any::tibble
             any::fs
+            any::httr2
             any::ellmer
 
       - name: Fetch Substacks
         run: Rscript R/fetch_substacks.R
 
-      - name: Fetch GitHub releases
+      - name: Fetch R package NEWS
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: Rscript R/fetch_github.R
 
       - name: Summarise
